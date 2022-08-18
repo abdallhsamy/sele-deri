@@ -10,3 +10,5 @@ pip install -r requirement.txt
 ```
 flask --app base run
 ```
+
+- Navigate to `<baseurl>/deltas/<id>` to get the delta value, where `id` is the **BTCUSD** value, ex: `<baseurl>/deltas/BTCUSD-50000-P`
