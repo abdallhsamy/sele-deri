@@ -1,13 +1,15 @@
 ## Installation
 - Use the project inside Python virtaulenv
 - Install the requirements
-```
-pip install -r requirement.txt
+
+```bash
+pip install -r requirements.txt
 ```
 
 ## Deployment
 - Inside the project please run
-```
+
+```bash
 flask --app base run
 ```
 
