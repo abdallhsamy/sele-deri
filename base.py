@@ -4,23 +4,24 @@ from flask import Flask
 
 from time import sleep
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By;
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-from sys import argv
 from markupsafe import escape
 
 
 # define chrome driver path
-DRIVER_PATH = '../chromedriver'
+DRIVER_PATH = '/usr/bin/chromedriver'
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
 
 app = Flask(__name__)
 @app.route("/deltas/<id>")
 def hello_world(id):
     deltaId = escape(id)
     try:
-        driver = webdriver.Chrome(service = Service(ChromeDriverManager().install()))
+        driver = webdriver.Chrome(DRIVER_PATH, options=chrome_options)
 
         driver.get('https://deri.io/#/trade/options/'+deltaId)
 
