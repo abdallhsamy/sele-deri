@@ -1,43 +1,61 @@
-#!/env/python
+#!/env/python3
 
+from tarfile import NUL
 from flask import Flask
 
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By;
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from markupsafe import escape
 
 
 # define chrome driver path
 DRIVER_PATH = '/usr/bin/chromedriver'
+
+# @todo: update this before deploying
+# DRIVER_PATH = './chromedriver'
+
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 
 app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return """
+        <html>
+        <head>
+            <title>Sele Deri</title>
+        </head>
+        <body>
+            <h1>Sele-deri app</h1>
+        </body>
+        </html>
+    """
+
+
 @app.route("/deltas/<id>")
-def hello_world(id):
+def getDelta(id):
     deltaId = escape(id)
+
+    driver = webdriver.Chrome(DRIVER_PATH, options=chrome_options)
+    driver.mobile
+    driver.get('https://deri.io/#/trade/options/'+deltaId)
+
     try:
-        driver = webdriver.Chrome(DRIVER_PATH, options=chrome_options)
-
-        driver.get('https://deri.io/#/trade/options/'+deltaId)
-
-        # sleep until page fully loades
         sleep(1)
-
-        # Get contact items
-        items = driver.find_element(By.CLASS_NAME, 'contract')
+        items = driver.find_elements(By.CSS_SELECTOR, '.contract .c-body .c-row')
         
-        # Get c-row
-        orders = items.find_elements(By.CLASS_NAME, 'c-row')
-
         # Delta object
-        print(orders[10].text.split('\n'))
-        return orders[10].text.split('\n')
+        return items[10].text.split('\n')
         
-    finally:
+    except:
+        return ['delta', None]
+    finally: 
         driver.quit()
 
