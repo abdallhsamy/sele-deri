@@ -1,8 +1,7 @@
 #!/env/python3
 
 from tarfile import NUL
-from flask import Flask
-
+from flask import (Flask, render_template)
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By;
@@ -27,16 +26,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return """
-        <html>
-        <head>
-            <title>Sele Deri</title>
-        </head>
-        <body>
-            <h1>Sele-deri app</h1>
-        </body>
-        </html>
-    """
+    return render_template('index.html')
 
 
 @app.route("/deltas/<id>")
@@ -59,3 +49,6 @@ def getDelta(id):
     finally: 
         driver.quit()
 
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')
