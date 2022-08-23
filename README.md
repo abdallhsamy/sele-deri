@@ -1,3 +1,10 @@
+## Requirements
+- Ubuntu OS
+- Chrome driver
+```bash
+apt-get install chromium-driver
+```
+
 ## Installation
 - Use the project inside Python virtaulenv
 - Install the requirements
